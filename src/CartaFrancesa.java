@@ -16,9 +16,7 @@ public class CartaFrancesa extends Carta {
     4 --> Pica
 
      */
-    public CartaFrancesa( int num, int palo ){
-        super(num,num==0?0:palo);
-    }
+    public CartaFrancesa( int num, int palo ){ super(num,num==0?0:palo); }
     private String numF() {
         return switch (super.num()) {
             case 0 -> "Joker";
