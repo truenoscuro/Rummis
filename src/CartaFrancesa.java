@@ -17,20 +17,20 @@ public class CartaFrancesa extends Carta {
 
      */
     public CartaFrancesa( int num, int palo ){
-        super(num,palo);
+        super(num,num==0?0:palo);
     }
-    private String vNum( int num ) {
-        return switch (num) {
+    private String numF() {
+        return switch (super.num()) {
             case 0 -> "Joker";
             case 1 -> "A";
             case 10 -> "J";
             case 11 -> "Q";
             case 12 -> "K";
-            default -> ""+num;
+            default -> ""+super.num();
         };
     }
-    private String vPalo(int palo){
-        return switch (palo){
+    private String paloF(){
+        return switch (super.palo()){
             case 1 -> "T";
             case 2 -> "D";
             case 3 -> "C";
@@ -38,9 +38,8 @@ public class CartaFrancesa extends Carta {
             default ->""; // Aquest no afectará
         };
     }
-
     @Override
-    public void imprimir() { System.out.print(vNum(super.num())+vPalo(super.palo())); }
+    public void imprimir() { System.out.print( numF() + paloF() ); }
 }
 
 
