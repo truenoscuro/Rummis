@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Ma {
+public abstract class Ma {
 
     private final ArrayList<Carta> ma;
 
@@ -12,13 +12,11 @@ public class Ma {
     //Acions
     public void robar(Carta carta){ ma.add( carta ); }
 
-    public Carta mostrar(int numCarta){ return ma.get(numCarta); }
+    protected Carta seleccionar(int i){ return ma.get(i); };
 
-    public Carta jugar(int numCarta){
-        Carta carta = ma.get(numCarta);
-        ma.remove(numCarta);
-        return carta;
-    }
+    public abstract Carta mostrar();
+
+    public void jugar(Carta carta){ ma.remove(carta); }
     // Imprimir ma
 
     public void imprimir(){
@@ -26,5 +24,6 @@ public class Ma {
             carta.imprimir();
             System.out.print(" ");
         }
+        System.out.println();
     }
 }
