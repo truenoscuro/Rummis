@@ -13,7 +13,7 @@ public class Mazo {
     public boolean esBuid(){ return mazo.isEmpty(); }
 
     //Accions
-    public void agregarCarta( Carta carta ){ mazo.add(carta); }
+    public void agregar( Carta carta ){ mazo.add(carta); }
     public Carta robar(){
         Carta carta = mazo.get(0);
         mazo.remove(0);
