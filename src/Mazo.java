@@ -1,21 +1,27 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class Mazo {
 
-    ArrayList<Carta> mazo;
+    private final ArrayList <Carta> mazo;
 
-    public Mazo(){
-        mazo = new ArrayList<>();
-    }
+    public Mazo(){ mazo = new ArrayList<>(); }
 
+
+
+
+    //boleans
+    public boolean esBuid(){ return mazo.isEmpty(); }
+
+    //Accions
     public void agregarCarta( Carta carta ){ mazo.add(carta); }
-
-
-    public void imprimir(){
-        for( Carta carta: mazo ){
-            carta.imprimir();
-            System.out.println();
-        }
+    public Carta robar(){
+        Carta carta = mazo.get(0);
+        mazo.remove(0);
+        return carta;
     }
+
+    public void barallar(){ Collections.shuffle(mazo); }
+
+
 
 }

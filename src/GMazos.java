@@ -5,4 +5,6 @@ public class GMazos {
             for( int n = 0; n < 13 ; n++ )
                 mazo.agregarCarta( new CartaFrancesa( n , p ) );
     }
+
+
 }
