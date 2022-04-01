@@ -16,10 +16,10 @@ public class CartaFrancesa extends Carta {
     4 --> Pica
 
      */
-    public CartaFrancesa( int num, int palo ){ super(num,num==0?0:palo); }
+    public CartaFrancesa( int num, int palo ){ super(num,palo); }
     private String numF() {
         return switch (super.num()) {
-            case 0 -> "Joker";
+            case 0 -> "j";
             case 1 -> "A";
             case 10 -> "J";
             case 11 -> "Q";
@@ -33,7 +33,7 @@ public class CartaFrancesa extends Carta {
             case 2 -> "D";
             case 3 -> "C";
             case 4 -> "P";
-            default ->""; // Aquest no afectará
+            default ->" "; // Aquest no afectará
         };
     }
     @Override
