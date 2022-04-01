@@ -18,14 +18,14 @@ public class rummy implements Regles{
     public boolean esJugadaValida(ArrayList<Ma> grups) {
         return false;
     }
+
     /*
     Punts de cartes
     1-7  -> 5 punts
     8-13 -> 10 punts
      */
-
     @Override
-    public int puntCarta(Carta carta) {
-        return 0;
+    public void sumarPuntuacio(Ma jugador) {
+
     }
 }
