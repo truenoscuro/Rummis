@@ -8,6 +8,7 @@ public abstract class Ma {
 
     //boleans
     public boolean esBuida(){ return ma.isEmpty(); }
+    protected boolean estaEnRang( int i ){ return i>=0 && i<ma.size(); }
 
     //Acions
     public void robar(Carta carta){ ma.add( carta ); }

@@ -9,6 +9,7 @@ interface Regles {
 
     boolean esJugadaValida(ArrayList<Ma> grups);
 
+    int puntCarta(Carta carta);
 
 
 }
