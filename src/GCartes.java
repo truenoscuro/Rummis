@@ -11,7 +11,11 @@ public abstract class GCartes {
     protected boolean estaEnRang( int i ){ return i>=0 && i<grup.size(); }
 
     //Acions
-    public void robar(Carta carta){ grup.add( carta ); }
+    public void robar(Carta carta){
+       grup.add( carta );
+       grup.sort(Carta::compareTo);
+    };
+
 
     protected Carta seleccionar(int i){ return grup.get(i); };
 
