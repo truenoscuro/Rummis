@@ -1,3 +1,7 @@
+package Mazo;
+
+import Cartes.CartaFrancesa;
+
 public class GMazos {
 
     static void cFa(Mazo mazo){

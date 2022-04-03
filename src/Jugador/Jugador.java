@@ -1,3 +1,7 @@
+package Jugador;
+
+import Cartes.Carta;
+
 import java.util.Scanner;
 
 public class Jugador extends Ma {
@@ -10,10 +14,10 @@ public class Jugador extends Ma {
     }
 
     // puntuació
+    @Override
     public void resetearPuntuacio(){ puntuacio = 0; }
     public void agregarPuntuacio(int punts){ puntuacio += punts; }
     public int puntuacio() { return puntuacio; }
-
     //ACCiONS
     public Carta mostrar(){
         int i ;

@@ -1,3 +1,8 @@
+package Taula;
+
+import Cartes.Carta;
+import Cartes.GCartes;
+
 import java.util.ArrayList;
 
 public class ZonaJoc {

@@ -1,3 +1,7 @@
+package Mazo;
+
+import Cartes.Carta;
+
 import java.util.*;
 
 public class Mazo {

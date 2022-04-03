@@ -1,3 +1,7 @@
+package Cartes;
+
+import Cartes.Carta;
+
 import java.util.ArrayList;
 
 public class GCartes {
@@ -17,7 +21,7 @@ public class GCartes {
     };
 
 
-    protected Carta seleccionar(int i){ return grup.get(i); };
+    public Carta seleccionar(int i){ return grup.get(i); };
 
 
     public void jugar(Carta carta){ grup.remove(carta); }
