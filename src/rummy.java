@@ -6,12 +6,12 @@ public class rummy {
         return false;
     }
 
-    public boolean esJugadaInicial(ArrayList<Ma> grups) {
+    public boolean esJugadaInicial(ArrayList<GCartes> grups) {
         return false;
     }
 
 
-    public boolean esJugadaValida(ArrayList<Ma> grups) {
+    public boolean esJugadaValida(ArrayList<GCartes> grups) {
         return false;
     }
 
@@ -21,7 +21,7 @@ public class rummy {
     8-13 -> 10 punts
     Joker -> 0 punts ? no diu res
      */
-    public void sumarPuntuacio(Ma[] jugadors) {
+    public void sumarPuntuacio(GCartes[] jugadors) {
 
     }
 }

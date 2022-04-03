@@ -1,5 +1,5 @@
 public class Taula {
-    Ma [] jugadors;
+    GCartes[] jugadors;
 
 
     public Taula( int numJugadors ){ jugadors = new Jugador[numJugadors]; }

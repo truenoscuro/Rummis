@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class ZonaJoc {
-    ArrayList<Ma> grupCarta;
+    ArrayList<GCartes> grupCarta;
 
     public ZonaJoc(){ grupCarta = new ArrayList<>();}
 
@@ -11,7 +11,7 @@ public class ZonaJoc {
 
 
 
-    public void agregarMa(Ma grup){ grupCarta.add(grup); }
+    public void agregarMa(GCartes grup){ grupCarta.add(grup); }
     public void agregarCarta(int g, Carta carta){ grupCarta.get(g).robar(carta); }
 
 
