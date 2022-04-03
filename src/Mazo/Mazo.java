@@ -10,9 +10,6 @@ public class Mazo {
 
     public Mazo(){ mazo = new ArrayList<>(); }
 
-
-
-
     //boleans
     public boolean esBuid(){ return mazo.isEmpty(); }
 

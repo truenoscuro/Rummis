@@ -12,7 +12,7 @@ public class ZonaJoc {
 
 
     public Carta seleccionar(int g , int c){ return grupCarta.get(g).seleccionar(c); }
-    public void extreure(int g , Carta carta){ grupCarta.get(g).robar(carta); }
+    public void extreure(int g , Carta carta){ grupCarta.get(g).jugar(carta); }
 
 
 

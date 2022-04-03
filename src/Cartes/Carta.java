@@ -24,9 +24,7 @@ public class Carta implements Comparable{
         Carta carta = ( Carta ) o;
         return num == carta.num && palo == carta.palo;
     }
-    @Override
     public int hashCode() { return Objects.hash(num, palo); }
-    @Override
     public int compareTo(Object o) {
         Carta carta = (Carta) o;
         int comp = 0;

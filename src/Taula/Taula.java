@@ -1,13 +1,25 @@
 package Taula;
 
-import Cartes.GCartes;
-import Jugador.Jugador;
+import Cartes.* ;
+import Jugador.* ;
+import Mazo.* ;
+import Normes.* ;
 
 public class Taula {
-    GCartes[] jugadors;
+    private Ma[] jugadors;
+    private Mazo mazo;
+    private Rummy normes;
+    public Taula( int numJugadors ){
+        jugadors = new Jugador[numJugadors];
+        //Mazo i ses normes;
+    }
 
+    public void jugar(){
 
-    public Taula( int numJugadors ){ jugadors = new Jugador[numJugadors]; }
+    }
+
+    //imprimibles
+
 
 
 

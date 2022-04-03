@@ -1,6 +1,6 @@
 package Mazo;
 
-import Cartes.CartaFrancesa;
+import Cartes.*;
 
 public class GMazos {
 
@@ -10,6 +10,7 @@ public class GMazos {
                 mazo.agregar( new CartaFrancesa( n , p ) );
 
     }
+
     static void cFaJ(Mazo mazo){
         cFa(mazo);
         for(int i = 0; i < 2;i++)  mazo.agregar(new CartaFrancesa(0,0));
