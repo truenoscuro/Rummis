@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class GCartes {
+public class GCartes {
 
     private final ArrayList<Carta> grup;
 
@@ -19,7 +19,6 @@ public abstract class GCartes {
 
     protected Carta seleccionar(int i){ return grup.get(i); };
 
-    public abstract Carta mostrar();
 
     public void jugar(Carta carta){ grup.remove(carta); }
     // Imprimir grup

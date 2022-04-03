@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Jugador extends GCartes {
+public class Jugador extends Ma {
     private final Scanner jugar;
     private int puntuacio;
     public Jugador(){
