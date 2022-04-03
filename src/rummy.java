@@ -1,20 +1,16 @@
 import java.util.ArrayList;
 
-public class rummy implements Regles{
+public class rummy {
 
-
-
-    @Override
     public boolean esGuanyador() {
         return false;
     }
 
-    @Override
     public boolean esJugadaInicial(ArrayList<Ma> grups) {
         return false;
     }
 
-    @Override
+
     public boolean esJugadaValida(ArrayList<Ma> grups) {
         return false;
     }
@@ -23,9 +19,9 @@ public class rummy implements Regles{
     Punts de cartes
     1-7  -> 5 punts
     8-13 -> 10 punts
+    Joker -> 0 punts ? no diu res
      */
-    @Override
-    public void sumarPuntuacio(Ma jugador) {
+    public void sumarPuntuacio(Ma[] jugadors) {
 
     }
 }
