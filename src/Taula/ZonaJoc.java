@@ -19,7 +19,7 @@ public class ZonaJoc {
 
 
 
-    public void agregarMa(GCartes grup){
+    public void agregarGrup(GCartes grup){
         int total = grup.tamanyGrup();
         for(int i = 0 ; i < total ;i++) grup.seleccionar(i).canviarEstat(false);
         grupCarta.add(grup);
