@@ -1,4 +1,4 @@
-package Mazo;
+package Taula;
 
 import Cartes.Carta;
 

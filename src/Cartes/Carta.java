@@ -5,13 +5,20 @@ import java.util.Objects;
 public class Carta implements Comparable{
     private final int num ;
     private final int palo;
+
+    private boolean cartaMa;
+
     public Carta( int num , int palo ){
         this.num = num;
         this.palo = palo;
+        cartaMa = false;
     }
     // Gets
     public int num(){ return num; }
     public int palo(){ return palo; }
+
+    public void canviarEstat(boolean estat){ cartaMa = estat; }
+    public boolean estaMa(){ return cartaMa ;}
     //Imprimir
     public void imprimir(){System.out.print(num+""+palo+"");}
 

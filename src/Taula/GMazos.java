@@ -1,6 +1,7 @@
-package Mazo;
+package Taula;
 
 import Cartes.*;
+import Taula.Mazo;
 
 public class GMazos {
 

@@ -7,12 +7,20 @@ import java.util.Scanner;
 public class Jugador extends Ma {
     private final Scanner jugar;
     private int puntuacio;
-    private boolean jugadaInicial = true;
+    private boolean jugadaInicial;
+    private boolean potJugar ;
     public Jugador(){
        super();
        puntuacio = 0;
+       jugadaInicial = true;
+       potJugar = true;
        jugar = new Scanner(System.in);
+
     }
+
+
+
+
     @Override
     // puntuació
     public void resetearPuntuacio(){ puntuacio = 0; }
@@ -20,8 +28,7 @@ public class Jugador extends Ma {
     public int puntuacio() { return puntuacio; }
 
     //ACCiONS
-    public void aJugadat() { jugadaInicial = false; }
-    public boolean esJugadaInicial() { return jugadaInicial; }
+
     public Carta mostrar(){
         int i ;
         System.out.println("Selecciona una carta");
@@ -31,7 +38,10 @@ public class Jugador extends Ma {
         return super.seleccionar( i );
     }
 
-
-
+    //booleans
+    public boolean potJugar() { return potJugar; }
+    public void canviarJugar(boolean estat) { potJugar = estat;}
+    public void aJugadat() { jugadaInicial = false; }
+    public boolean esJugadaInicial() { return jugadaInicial; }
 
 }
