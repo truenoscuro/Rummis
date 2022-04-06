@@ -13,12 +13,11 @@ public abstract class Ma extends GCartes {
         super.robar(carta);
     }
 
-    public abstract boolean potJugar();
-    public abstract void canviarJugar(boolean estat);
-    public abstract void aJugadat();
+    public abstract void aJugat();
     public abstract boolean esJugadaInicial();
     //Accio
     public abstract Carta mostrar();
+    public abstract boolean volJugar(String text);
     //puntuacio
     public abstract void resetearPuntuacio();
     public abstract void agregarPuntuacio(int punts);

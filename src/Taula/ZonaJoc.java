@@ -4,6 +4,7 @@ import Cartes.Carta;
 import Cartes.GCartes;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ZonaJoc {
     ArrayList<GCartes> grupCarta;
@@ -11,7 +12,13 @@ public class ZonaJoc {
 
     public Carta seleccionar(int g , int c){ return grupCarta.get(g).seleccionar(c); }
     //public void extreure(int g , Carta carta){ grupCarta.get(g).jugar(carta); }
-    public GCartes extreureGrup(int g){
+    public GCartes extreureGrup(){
+        Scanner select = new Scanner(System.in);
+        int g;
+
+        System.out.println( "Selecciona un grup ");
+        do{ g = select.nextInt();
+        }while(!(g >= 0 && g < grupCarta.size() ));
         GCartes grup = grupCarta.get(g);
         grupCarta.remove(g);
         return grup;

@@ -1,6 +1,7 @@
 package Jugador;
 
-import Cartes.Carta;
+import Cartes.*;
+
 
 import java.util.Scanner;
 
@@ -9,15 +10,29 @@ public class Jugador extends Ma {
     private int puntuacio;
     private boolean jugadaInicial;
     private boolean potJugar ;
+
+    public Jugador(GCartes grup){
+        this();
+        crearMa(grup);
+
+    }
+
     public Jugador(){
        super();
        puntuacio = 0;
        jugadaInicial = true;
-       potJugar = true;
        jugar = new Scanner(System.in);
 
     }
 
+    //Inits
+    public void crearMa(GCartes grup){
+        while(!grup.esBuida()){
+            Carta carta = grup.seleccionar(0);
+            grup.jugar(carta);
+            robar(carta);
+        }
+    }
 
 
 
@@ -29,19 +44,28 @@ public class Jugador extends Ma {
 
     //ACCiONS
 
+    @Override
+    public void robar(Carta carta) {
+        carta.canviarEstat(true);
+        super.robar(carta);
+    }
+
     public Carta mostrar(){
         int i ;
-        System.out.println("Selecciona una carta");
+        System.out.println("Selecciona una carta ");
         super.imprimir();
         do{ i = jugar.nextInt();
         }while( !super.estaEnRang( i ) );
         return super.seleccionar( i );
     }
+    public boolean volJugar(String text) {
+
+        System.out.println("Tria > 0 per "+text);
+        return jugar.nextInt() > 0;
+    }
 
     //booleans
-    public boolean potJugar() { return potJugar; }
-    public void canviarJugar(boolean estat) { potJugar = estat;}
-    public void aJugadat() { jugadaInicial = false; }
+    public void aJugat() { jugadaInicial = false; }
     public boolean esJugadaInicial() { return jugadaInicial; }
 
 }

@@ -22,7 +22,6 @@ public class GCartes {
 
 
     public Carta seleccionar(int i){ return grup.get(i); };
-
     public int tamanyGrup(){ return grup.size(); }
     public void jugar(Carta carta){ grup.remove(carta); }
     // Imprimir grup
