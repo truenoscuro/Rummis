@@ -41,6 +41,7 @@ public class Taula {
             zonaJoc.extreuGrup(grup);
         }
         for(GCartes jugador: jugadors) recollirGrup(jugador);
+        mazo.barallar();
     }
     public void repartir(){
         int numCartes = normes.cartesInit();
@@ -52,8 +53,8 @@ public class Taula {
     public void jugarZona(Ma jugador, ArrayList<GCartes> grups , int i ,boolean jugarMa){
         GCartes grupArreglar = grups.get( i );
         Carta carta = jugador.mostrar();
-        grupArreglar.robar( carta ); //
-        while( !normes.esJugadaValida( grups ) ){ // modific puc fer que sigui en general
+        grupArreglar.robar( carta );
+        while( !normes.esJugadaValida( jugador , grups ) ){ // modific puc fer que sigui en general
             if( !jugarMa ) grupArreglar.jugar( carta );
             if( !jugador.volJugar("si hi ha jugada valida" ) ) return;
             carta = jugador.mostrar();
@@ -90,8 +91,6 @@ public class Taula {
     }
     public int pasarTorn(int torn){ return ++torn%jugadors.length; }
 
-
-
     public void jugarJoc(){
         // repartir cartes
         int torn;
@@ -99,7 +98,7 @@ public class Taula {
         normes.imprimir(); // <--- Es podem imprimir quans elecciones . Es un poc tonteria
         while( !normes.hihaGuanyador( jugadors ) ){
             repartir();
-            torn = 0; // un random
+            torn = 0;
             do {
                 jugador = jugadors[ torn ];
                 do {
