@@ -74,7 +74,13 @@ public class Taula {
         if( !jugarMa ) {    // <-- Vol jugar del grup
             System.out.println(" Selecciona grup ");
             zonaJoc.imprimir();
-            grups.add(zonaJoc.extreureGrup()); // afegeix un grup buid puc fer el de la ma! ueh!
+            GCartes grup =zonaJoc.extreureGrup()
+            grups.add(grup); // extreure la carta
+            Carta carta = new Jugador(grup).mostrar(); // <-- S'ha de simplificar
+            GCartes  aux = new GCartes();
+            aux.robar(carta);
+            grups.add(aux);
+
         } else grups.add(new GCartes());
         //bucle de jugar
         while( i < grups.size() ) {

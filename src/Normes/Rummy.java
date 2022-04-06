@@ -95,6 +95,6 @@ public class Rummy {
 
     public void imprimir(){
         // IMprimir ses regles
-        
+
     }
 }
