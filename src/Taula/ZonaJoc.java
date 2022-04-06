@@ -10,7 +10,7 @@ public class ZonaJoc {
     ArrayList<GCartes> grupCarta;
     public ZonaJoc(){ grupCarta = new ArrayList<>();}
 
-    public Carta seleccionar(int g , int c){ return grupCarta.get(g).seleccionar(c); }
+    public Carta seleccionarCarta(int g , int c){ return grupCarta.get(g).seleccionar(c); }
     //public void extreure(int g , Carta carta){ grupCarta.get(g).jugar(carta); }
     public GCartes extreureGrup(){
         Scanner select = new Scanner(System.in);
@@ -25,7 +25,6 @@ public class ZonaJoc {
     }
 
 
-
     public void agregarGrup(GCartes grup){
         int total = grup.tamanyGrup();
         for(int i = 0 ; i < total ;i++) grup.seleccionar(i).canviarEstat(false);
@@ -34,6 +33,11 @@ public class ZonaJoc {
     public void agregarCarta(int g, Carta carta){
         carta.canviarEstat(false);
         grupCarta.get(g).robar(carta); }
+
+    public boolean esBuida(){ return grupCarta.isEmpty(); }
+
+    public GCartes selectGrup(int i){ return grupCarta.get(i);};
+    public void extreuGrup(GCartes grup){ grupCarta.remove(grup); }
 
 
 

@@ -14,17 +14,40 @@ public class Taula {
     private final ZonaJoc zonaJoc;
     public Taula( int numJugadors ){
         jugadors = new Jugador[numJugadors];
+        zonaJoc = new ZonaJoc();
+
         //Mazo i ses normes; s'ha de posar un selector
         normes = new Rummy();
         mazo = new Mazo();
-        zonaJoc = new ZonaJoc();
+
         GMazos.cFaJ(mazo);
     }
+    public void recollirGrup(GCartes grup){
+        Carta carta;
+        while(!grup.esBuida()){
+            carta = grup.seleccionar(0);
+            carta.canviarEstat(false);
+            grup.jugar(carta);
+            mazo.agregar(carta);
+        }
 
+    }
     //s'ha de programar
-    public void recollir(){}
-    public void repartir(){}
-    public void robar(Ma jugador){}
+    public void recollir(){
+        GCartes grup;
+        while(!zonaJoc.esBuida()) {
+            grup = zonaJoc.selectGrup(0);
+            recollirGrup(grup);
+            zonaJoc.extreuGrup(grup);
+        }
+        for(GCartes jugador: jugadors) recollirGrup(jugador);
+    }
+    public void repartir(){
+        int numCartes = normes.cartesInit();
+        for(Ma jugador: jugadors)
+            for(int i = 0 ; i < numCartes; i++) jugador.robar( mazo.robar() ) ;
+    }
+
 
     public void jugarZona(Ma jugador, ArrayList<GCartes> grups , int i ,boolean jugarMa){
         GCartes grupArreglar = grups.get( i );
@@ -69,7 +92,7 @@ public class Taula {
 
 
 
-    public void jugar(){
+    public void jugarJoc(){
         // repartir cartes
         int torn;
         Ma jugador;
@@ -80,8 +103,8 @@ public class Taula {
             do {
                 jugador = jugadors[ torn ];
                 do {
-                    if( jugador.volJugar("si pots jugar" ) ){
-                        robar( jugador );
+                    if( !jugador.volJugar("si pots jugar" ) ){
+                        jugador.robar( mazo.robar() );
                         break;
                     }
                    jugar( jugador );
