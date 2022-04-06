@@ -74,13 +74,13 @@ public class Taula {
         if( !jugarMa ) {    // <-- Vol jugar del grup
             System.out.println(" Selecciona grup ");
             zonaJoc.imprimir();
-            GCartes grup =zonaJoc.extreureGrup()
-            grups.add(grup); // extreure la carta
-            Carta carta = new Jugador(grup).mostrar(); // <-- S'ha de simplificar
-            GCartes  aux = new GCartes();
-            aux.robar(carta);
-            grups.add(aux);
-
+            GCartes grup =zonaJoc.extreureGrup(); // he de fer un clone!
+            grups.add(grup);
+            if(jugador.volJugar(" si vols extreure una carta")) {  // falta un juntar en cas de F espera crear una copia de zona
+                Carta carta = new Jugador(grup).mostrar();
+                grup.robar(carta);
+                grups.add(new GCartes(carta));  //<-- SI surt aqui s'ha de fer algo
+            }
         } else grups.add(new GCartes());
         //bucle de jugar
         while( i < grups.size() ) {
@@ -105,8 +105,7 @@ public class Taula {
         while( !normes.hihaGuanyador( jugadors ) ){
             repartir();
             torn = 0;
-            do {
-                jugador = jugadors[ torn ];
+            do { jugador = jugadors[ torn ];
                 do {
                     if( !jugador.volJugar("si pots jugar" ) ){
                         jugador.robar( mazo.robar() );

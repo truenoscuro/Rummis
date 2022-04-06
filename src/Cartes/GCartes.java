@@ -3,13 +3,17 @@ package Cartes;
 import Cartes.Carta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GCartes {
 
     private final ArrayList<Carta> grup;
 
     public GCartes(){ grup = new ArrayList<>(); }
-
+    public GCartes(Carta...cartes){
+        this();
+        grup.addAll(Arrays.asList(cartes));
+    }
     //boleans
     public boolean esBuida(){ return grup.isEmpty(); }
     protected boolean estaEnRang( int i ){ return i>=0 && i<grup.size(); }

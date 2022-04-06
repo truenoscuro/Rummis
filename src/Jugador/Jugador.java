@@ -14,7 +14,6 @@ public class Jugador extends Ma {
     public Jugador(GCartes grup){
         this();
         crearMa(grup);
-
     }
 
     public Jugador(){
