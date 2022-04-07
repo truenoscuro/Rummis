@@ -26,8 +26,8 @@ public class Taula {
         Carta carta;
         while(!grup.esBuida()){
             carta = grup.seleccionar(0);
-            carta.canviarEstat(false);
             grup.jugar(carta);
+            carta.agregarGrup(new GCartes());
             mazo.agregar(carta);
         }
 
@@ -43,57 +43,69 @@ public class Taula {
         for(GCartes jugador: jugadors) recollirGrup(jugador);
         mazo.barallar();
     }
-    public void repartir(){
+    public void repartir() {
         int numCartes = normes.cartesInit();
-        for(Ma jugador: jugadors)
-            for(int i = 0 ; i < numCartes; i++) jugador.robar( mazo.robar() ) ;
+        Carta carta;
+        for (Ma jugador : jugadors){
+            for (int i = 0; i < numCartes; i++) {
+                carta = mazo.robar();
+                carta.agregarGrup(jugador);
+                jugador.robar(carta);
+            }
+        }
     }
 
 
-    public void jugarZona(Ma jugador, ArrayList<GCartes> grups , int i ,boolean jugarMa){
-        GCartes grupArreglar = grups.get( i );
-        Carta carta = jugador.mostrar();
-        grupArreglar.robar( carta );
-        while( !normes.esJugadaValida( jugador , grups ) ){ // modific puc fer que sigui en general
-            if( !jugarMa ) grupArreglar.jugar( carta );
-            if( !jugador.volJugar("si hi ha jugada valida" ) ) return;
+    public void jugarZona(Ma jugador, GCartes grupArreglar ){
+        Carta carta;
+        if(jugador.volJugar("afegir una carta") ){
             carta = jugador.mostrar();
+            jugador.jugar(carta);
             grupArreglar.robar( carta );
         }
-        jugador.aJugat();
-        for(int c = 0;  c < grupArreglar.tamanyGrup() ; c++ )
-            if(carta.estaMa()) jugador.jugar( grupArreglar.seleccionar( c ) );
+        while (!normes.esJugadaValida( grupArreglar )) { // modific puc fer que sigui en general
+            if( jugador.volJugar(" afegir sino llevar ") ){
+                carta = jugador.mostrar();
+                jugador.jugar( carta );
+                grupArreglar.robar( carta );
+            } else {
+                carta = ( (Ma)grupArreglar ).mostrar( );
+                grupArreglar.jugar( carta );
+                jugador.robar( carta );
+            }
+            if(!jugador.volJugar("seguir jugant" ))
+                for(int i = 0; i < grupArreglar.tamanyGrup();i++)
+                    grupArreglar.seleccionar(i).retornar();
+
+        }
+        for(int i = 0; i < grupArreglar.tamanyGrup();i++)
+            grupArreglar.seleccionar(i).agregarGrup(grupArreglar);
     }
     public void jugar(Ma jugador){
         //Inits
-        ArrayList<GCartes> grups = new ArrayList<>();
-        int i = 0;
-        boolean jugarMa = true;
-        Ma jugadorAux;
-        if(!jugador.esJugadaInicial()) jugarMa = jugador.volJugar(" jugar de la ma ");
-        if( !jugarMa ) {    // <-- Vol jugar del grup
-            System.out.println(" Selecciona grup ");
-            zonaJoc.imprimir();
-            GCartes grup =zonaJoc.extreureGrup(); // he de fer un clone!
-            grups.add(grup);
-            if(jugador.volJugar(" si vols extreure una carta")) {  // falta un juntar en cas de F espera crear una copia de zona
-                Carta carta = new Jugador(grup).mostrar();
-                grup.robar(carta);
-                grups.add(new GCartes(carta));  //<-- SI surt aqui s'ha de fer algo
-            }
-        } else grups.add(new GCartes());
-        //bucle de jugar
-        while( i < grups.size() ) {
-            if ( jugador.volJugar(" jugar de la Ma ") ) jugadorAux = jugador; // <--- Extreus a la zona
-            else {
-                grups.add( zonaJoc.extreureGrup() );
-                jugadorAux = new Jugador( grups.get(i + 1) );
-            }
-            jugarZona( jugadorAux, grups, i, jugarMa );
-            i++;
+        ZonaJoc zonaAux = new ZonaJoc();
+        zonaAux.agregarGrup(new GCartes());
+        GCartes grup;
+        if( ! jugador.volJugar(" jugar de la ma ") ) {    // <-- Vol jugar del grup
+            do {
+                System.out.println( "Selecciona un grup" );
+                zonaJoc.imprimir();
+                grup =  zonaJoc.mostrar();
+                System.out.println( "Selecciona una carta" );
+                Carta carta = ((Jugador) grup).mostrar();
+                zonaAux.selectGrup(0).robar( carta ); // afegeix al grup 0
+
+                grup.jugar(carta);  // elimin carta al grup aqui es on hi ha el problema
+                zonaAux.agregarGrup((GCartes) grup);
+            } while (jugador.volJugar(" seleccionar un altre grup"));
         }
-        //Agregar dins la zona
-        for(GCartes grup: grups) zonaJoc.agregarGrup(grup);
+        for(int i = 0;  i < zonaAux.tamany(); i++ ) {
+            grup = zonaAux.selectGrup(i);
+            jugarZona( jugador , grup );
+            if( !jugador.esJugadaInicial() || !normes.arribaAlMin( zonaAux ) ) zonaAux.agregarGrup(new GCartes());
+            else jugador.aJugat();
+            if( zonaJoc.extreuGrup( grup ) ) zonaJoc.agregarGrup( grup );
+        }
     }
     public int pasarTorn(int torn){ return ++torn%jugadors.length; }
 

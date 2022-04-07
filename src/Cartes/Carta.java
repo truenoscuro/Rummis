@@ -5,25 +5,25 @@ import java.util.Objects;
 public class Carta implements Comparable{
     private final int num ;
     private final int palo;
-
-    private boolean cartaMa;
+    private GCartes grupRetorna; // buumerang
 
     public Carta( int num , int palo ){
         this.num = num;
         this.palo = palo;
-        cartaMa = false;
+        grupRetorna = new GCartes(); // <--- eliminar
     }
     // Gets
     public int num(){ return num; }
     public int palo(){ return palo; }
 
-    public void canviarEstat(boolean estat){ cartaMa = estat; }
-    public boolean estaMa(){ return cartaMa ;}
     //Imprimir
     public void imprimir(){System.out.print(num+""+palo+"");}
 
+    //efecto bumerang de ses cartes;
+    public void agregarGrup(GCartes grup){ grupRetorna = grup; }
+    public void retornar(){ grupRetorna.robar(this) ;}
+
     // Compara dues cartes
-    public boolean esMateixPalo( Carta carta ){ return palo == carta.palo(); }
     @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
@@ -32,11 +32,16 @@ public class Carta implements Comparable{
         return num == carta.num && palo == carta.palo;
     }
     public int hashCode() { return Objects.hash(num, palo); }
+    //ordernar cartes
     public int compareTo(Object o) {
         Carta carta = (Carta) o;
         int comp = 0;
-        if(num < carta.num) comp = -1;
-        else if(num > carta.num) comp = 1;
+        if( num == carta.num() ){
+            if(palo < carta.palo()) comp = -1;
+            else if( palo > carta.palo() ) comp = 1;
+        }
+        else if(num < carta.num()) comp = -1;
+        else if(num > carta.num()) comp = 1;
         return comp;
     }
 }

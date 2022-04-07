@@ -43,11 +43,6 @@ public class Jugador extends Ma {
 
     //ACCiONS
 
-    @Override
-    public void robar(Carta carta) {
-        carta.canviarEstat(true);
-        super.robar(carta);
-    }
 
     public Carta mostrar(){
         int i ;

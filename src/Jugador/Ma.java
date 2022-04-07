@@ -7,12 +7,6 @@ public abstract class Ma extends GCartes {
     // pot jugar
 
 
-    @Override
-    public void robar(Carta carta) {
-        carta.canviarEstat( true );
-        super.robar(carta);
-    }
-
     public abstract void aJugat();
     public abstract boolean esJugadaInicial();
     //Accio

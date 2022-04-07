@@ -2,7 +2,7 @@ package Normes;
 
 import Cartes.*;
 import Jugador.*;
-
+import Taula.ZonaJoc;
 
 
 import java.util.ArrayList;
@@ -18,17 +18,17 @@ public class Rummy {
         return false;
     }
     public boolean esGuanyadorRonda(Ma jugador){ return jugador.esBuida() ; }
-    public boolean esJugadaValida( Ma jugador , ArrayList<GCartes> grups ) {
+    public boolean arribaAlMin(ZonaJoc grups){
         int cont = 0;
-        for (GCartes grup: grups){
-            for (int i = 0; i < grup.tamanyGrup();i++)
+        for (int i = 0 ; i < grups.tamany() ; i++ ){
+            GCartes grup = grups.selectGrup(i);
+            for (int j = 0; j < grup.tamanyGrup();j++)
                 cont+= grup.seleccionar(i).num();
         }
-       for(GCartes grup: grups){
-           if(esEscala(grup)||esMateixNum(grup)) continue;
-           return false;
-       }
-       return !jugador.esJugadaInicial() || cont >= numIncial;
+        return  cont < numIncial;
+    }
+    public boolean esJugadaValida( GCartes grup ){
+        return esEscala( grup ) || esMateixNum( grup );
     }
     private boolean compararEscala(Carta carta1,Carta carta2){
         int num1 = carta1.num();
@@ -53,6 +53,9 @@ public class Rummy {
     private boolean compararGrup(Carta carta1,Carta carta2){
         int num1 = carta1.num();
         int num2 = carta2.num();
+        int palo1 = carta1.palo();
+        int palo2 = carta2.palo();
+        if(palo1 >= palo2) return false;
         if(num1 == 0 || num2 == 0) return true;
         return num1 == num2;
     }
