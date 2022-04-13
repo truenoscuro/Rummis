@@ -26,7 +26,7 @@ public class Carta implements Comparable{
     // Compara dues cartes
     @Override
     public boolean equals(Object o) {
-        if ( this == o ) return true;
+        //if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
         Carta carta = ( Carta ) o;
         return num == carta.num && palo == carta.palo;

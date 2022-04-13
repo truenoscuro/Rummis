@@ -17,10 +17,10 @@ public class Taula {
         jugadors = new Jugador[numJugadors];
         for (int i = 0; i<numJugadors;i++) jugadors[i] =  new Jugador();
         zonaJoc = new ZonaJoc();
-
         //Mazo i ses normes; s'ha de posar un selector
         normes = new Rummy();
         mazo = new Mazo();
+        mazo.barallar();
 
         GMazos.cFaJ(mazo);
     }
@@ -56,37 +56,45 @@ public class Taula {
         }
     }
 
+    private void restaurar(ZonaJoc zonaAux){
+        GCartes grup;
+        while (!zonaAux.esBuida()) {
+            grup = zonaAux.selectGrup(0);
+            zonaAux.extreuGrup(grup);
+            for (int i = 0; i < grup.tamanyGrup(); i++)
+                grup.seleccionar(i).retornar();
+        }
+    }
 
-    private void arreglarGrups(Ma jugador, GCartes grupArreglar ){
+    private boolean arreglarGrups(Ma jugador, GCartes grupArreglar ){
         Carta carta;
         boolean torn1 = true;
-        while (torn1 || !normes.esJugadaValida( grupArreglar )) { // modific puc fer que sigui en general
-            carta = jugador.mostrar();
+        while (torn1 || !jugador.esBuida() && !normes.esJugadaValida( grupArreglar )) { // modific puc fer que sigui en general
+            carta = jugador.mostrar(); // si tria un grup  está clar que voldrá modificarlo
             jugador.jugar( carta );
             grupArreglar.robar( carta );
-            jugador.imprimir();
             grupArreglar.imprimir();
             torn1 = false;
-            if( !jugador.volJugar("seguir jugant" ) ) {
-                for (int i = 0; i < grupArreglar.tamanyGrup(); i++)
-                    grupArreglar.seleccionar(i).retornar();
-                jugador.mostrar();
-                return;
-            }
+            if(grupArreglar.tamanyGrup()< 3) continue; // Primer selecciona fins un grup de tres cartes
+            if( jugador.volJugar("T'HAS EQUIVOCAT" ) ) return false;
+
         }
-        for( int i = 0 ; i < grupArreglar.tamanyGrup() ; i++ )
-            grupArreglar.seleccionar(i).agregarGrup(grupArreglar);
+        return !jugador.esBuida() || normes.esJugadaValida(grupArreglar);
     }
     private void jugarZona(Ma jugador,ZonaJoc zonaAux){
         GCartes grup;
         do {
-            imprimirTaula( jugador );
+            zonaJoc.imprimir();
             grup =  zonaJoc.mostrar();
-            Carta carta = ((Jugador) grup).mostrar();
-            zonaAux.selectGrup(0).robar( carta ); // afegeix al grup 0
-            grup.jugar( carta );  // elimin carta al grup aqui es on hi ha el problema
-            zonaAux.agregarGrup((GCartes) grup);
-        } while ( jugador.volJugar(" seleccionar un altre grup" ) );
+            // vol agafar una carta mes del grup
+            do {
+                Carta carta = ((Jugador) grup).mostrar();
+                zonaAux.selectGrup(0).robar(carta); // afegeix al grup 0
+                grup.jugar(carta);  // elimin carta al grup aqui es on hi ha el problema
+            }while(jugador.volJugar(" CONTINUAR AGAFANT CARTES DEL MATEIX GRUP"));
+            zonaAux.agregarGrup( grup );
+            zonaAux.imprimir();
+        } while ( jugador.volJugar(" SELECCIONAR UN ALTRE GRUP" ) );
 
     }
     private void jugar( Ma jugador ){
@@ -94,16 +102,24 @@ public class Taula {
         ZonaJoc zonaAux = new ZonaJoc();
         zonaAux.agregarGrup( new GCartes() );
         GCartes grup;
-        if( !jugador.esJugadaInicial() && ! jugador.volJugar(" jugar de la ma ") ) jugarZona(jugador,zonaAux);
+        if( !jugador.esJugadaInicial() && jugador.volJugar(" AGAFAR CARTES EN JOC ") ) jugarZona(jugador,zonaAux);
         for( int i = 0;  i < zonaAux.tamany(); i++ ) {
-            grup = zonaAux.selectGrup(i);
-            arreglarGrups( jugador , grup );
-            if(jugador.volJugar(" vols sortir?")) break;
+            grup = zonaAux.selectGrup( i );
+            if(!arreglarGrups( jugador , grup )){
+                restaurar(zonaAux);
+                break;
+            }
             if( !jugador.esJugadaInicial() || !normes.arribaAlMin( zonaAux ) ) zonaAux.agregarGrup(new GCartes());
             else jugador.aJugat();
-            if( !grup.esBuida() && ! zonaJoc.extreuGrup( grup ) ) zonaJoc.agregarGrup( grup );
-
         }
+        // es  per guardar els grups que no estan a zonaJoc
+        while(!zonaAux.esBuida()){
+            grup = zonaAux.selectGrup(0);
+            if(!zonaAux.extreuGrup(grup)) zonaJoc.agregarGrup(grup);
+            for( int i = 0 ; i < grup.tamanyGrup() ; i++ )
+                grup.seleccionar(i).agregarGrup(grup);
+        }
+
     }
     private int pasarTorn(int torn){ return ++torn%jugadors.length; }
 
@@ -119,17 +135,16 @@ public class Taula {
             //ronda
             do {
                 jugador = jugadors[ torn ];
-                jugador.imprimir();
                 System.out.println("Torn del jugador "+ torn);
                 do {
-                    if( !jugador.volJugar("si pots jugar" ) ){
+                    if( !jugador.volJugar("PASAR TORN" ) ){
                         carta = mazo.robar();
-                        carta.agregarGrup(jugador);
+                        carta.agregarGrup( jugador );
                         jugador.robar( carta );
                         break;
                     }
                    jugar( jugador );
-                } while( jugador.volJugar("vols seguir jugant" ) ); //<--- pasar a normes o deixarlo així.
+                } while( !normes.esGuanyadorRonda( jugador ) && jugador.volJugar("ALTRE JUGADA" ) ); //<--- pasar a normes o deixarlo així.
                 torn = pasarTorn( torn );
             } while( !normes.esGuanyadorRonda( jugador ) );
             normes.sumarPuntuacio( jugadors );

@@ -22,6 +22,7 @@ public class Rummy {
         return false;
     }
     public boolean esGuanyadorRonda(Ma jugador){ return jugador.esBuida() ; }
+    //Normes de jugar
     public boolean arribaAlMin(ZonaJoc grups){
         int cont = 0;
         for (int i = 0 ; i < grups.tamany() ; i++ ){
@@ -37,18 +38,17 @@ public class Rummy {
         int num2 = carta2.num();
         int palo1 = carta1.palo();
         int palo2 = carta2.palo();
-        if(palo1 != palo2) return false;
         if(num1 == 0 || num2 == 0) return true;
+        if(palo1 != palo2) return false;
         if(num1 == 13 && num2 == 1) return true;
         if(num1 == 1 && num2 == 13) return true;
-        return num1<=num2;
+        return num1<num2;
     }
     private boolean esEscala( GCartes grup ){
         int tamany = grup.tamanyGrup();
         if(tamany!=4) return false;
-        for(int c = 1 ; c< grup.tamanyGrup();c++){
-            if( compararEscala(grup.seleccionar(c-1) , grup.seleccionar(c) ) ) continue;
-            return false;
+        for(int c = 1 ; c < tamany ;c++){
+            if( compararEscala(grup.seleccionar(c-1) , grup.seleccionar(c) ) )  return false;
         }
         return true;
     }
@@ -57,16 +57,16 @@ public class Rummy {
         int num2 = carta2.num();
         int palo1 = carta1.palo();
         int palo2 = carta2.palo();
-        if(palo1 >= palo2) return false;
         if(num1 == 0 || num2 == 0) return true;
+        if(palo1 == palo2) return false;
         return num1 == num2;
     }
     private boolean esMateixNum( GCartes grup ){
         int tamany = grup.tamanyGrup();
-        if(!(tamany==3  ||  tamany == 4)) return false;
-        for(int c = 1 ; c< grup.tamanyGrup();c++){
-            if( compararGrup(grup.seleccionar(c-1) , grup.seleccionar(c) ) ) continue;
-            return false;
+        if(tamany<=2  ||  tamany >= 5) return false;
+        for(int c = 1 ; c< tamany ;c++){
+            if( !compararGrup(grup.seleccionar(c-1 ) , grup.seleccionar( c ) ) ) return false;
+
         }
         return true;
     }
@@ -97,12 +97,13 @@ public class Rummy {
     //imprimir regles
     public void imprimir(){
         System.out.println("""
-                 Normes: \s 1- Nomes es permeten grups de 3 o 4 de cartes amb mateix numero palo diferent\s
+                 Normes: \s
+                 1- Nomes es permeten grups de 3 o 4 de cartes amb mateix numero palo diferent\s
                 º2- Les escales nomes son de 4 cartes i de palo igual , el 1 13 i 13 1 es valid\s
                  3- El comodi compte per qualsevol carta\s
                  4- La jugada inicial el grup de cartes a de sumar 30 o més\s
                  5- Despres d'haver obrit la primera vegada es pot jugar en les cartes del tauler\s
                  6- Si no es pot jugar es roba una carta i se pasa el torn\s
-                  7- Es juga fins que un jugador tengui més de 100 punts""");
+                 7- Es juga fins que un jugador tengui més de 100 punts""");
     }
 }
