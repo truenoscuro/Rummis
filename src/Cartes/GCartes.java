@@ -23,6 +23,7 @@ public class GCartes {
        grup.add( carta );
        grup.sort(Carta::compareTo);
     };
+    public void sort(){ grup.sort(Carta::compareTo); }
 
 
     public Carta seleccionar(int i){ return grup.get(i); };

@@ -4,9 +4,6 @@ import Cartes.*;
 import Jugador.* ;
 import Normes.* ;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 // Canviar els prints perque sigui mes lletguible
 public class Taula {
     private final Ma[] jugadors;
@@ -29,6 +26,7 @@ public class Taula {
         while(!grup.esBuida()){
             carta = grup.seleccionar(0);
             grup.jugar(carta);
+            carta.canviarPes( carta.num() );
             carta.agregarGrup(new GCartes());
             mazo.agregar(carta);
         }
@@ -58,11 +56,15 @@ public class Taula {
 
     private void restaurar(ZonaJoc zonaAux){
         GCartes grup;
+        Carta carta;
         while (!zonaAux.esBuida()) {
             grup = zonaAux.selectGrup(0);
             zonaAux.extreuGrup(grup);
-            for (int i = 0; i < grup.tamanyGrup(); i++)
-                grup.seleccionar(i).retornar();
+            for (int i = 0; i < grup.tamanyGrup(); i++) {
+                carta = grup.seleccionar(i);
+                carta.canviarPes(carta.num());
+                carta.retornar();
+            }
         }
     }
 
@@ -72,6 +74,7 @@ public class Taula {
         while (torn1 || !jugador.esBuida() && !normes.esJugadaValida( grupArreglar )) { // modific puc fer que sigui en general
             carta = jugador.mostrar(); // si tria un grup  está clar que voldrá modificarlo
             jugador.jugar( carta );
+            if( carta.palo() == 0) carta.canviarPes( normes.selectNum() );
             grupArreglar.robar( carta );
             grupArreglar.imprimir();
             torn1 = false;

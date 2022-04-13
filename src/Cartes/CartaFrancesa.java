@@ -25,9 +25,9 @@ public class CartaFrancesa extends Carta {
         return switch (super.num()) {
             case 0  -> "j";
             case 1  -> "A";
-            case 10 -> "J";
-            case 11 -> "Q";
-            case 12 -> "K";
+            case 11 -> "J";
+            case 12 -> "Q";
+            case 13 -> "K";
             default -> ""+super.num();
         };
     }
@@ -37,7 +37,7 @@ public class CartaFrancesa extends Carta {
             case 2  -> "D";
             case 3  -> "C";
             case 4  -> "P";
-            default ->" "; // Aquest no afectará
+            default ->"j"; // Aquest no afectará
         };
     }
     @Override
