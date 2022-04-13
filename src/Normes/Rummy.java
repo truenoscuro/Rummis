@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Rummy {
-    private  final static int numCartes = 14;
-    private final static int puntuacio = 101;
-    private final static int numIncial = 30;
+    protected int numCartes = 14;
+    protected  int puntuacio = 101;
+    protected int numIncial = 30;
 
     public int cartesInit(){ return  numCartes; } // es el repartir de cartes en quantes començes
     public boolean hihaGuanyador( Ma...jugadors ) {
@@ -27,64 +27,64 @@ public class Rummy {
     //Normes de jugar
     public boolean arribaAlMin(ZonaJoc grups){
         int cont = 0;
-        int num = 0;
         for (int i = 0 ; i < grups.tamany() ; i++ ){
             GCartes grup = grups.selectGrup(i);
-            for (int j = 0; j < grup.tamanyGrup();j++) {
-                num = grup.seleccionar(i).num();
-                cont += num;
-            }
+            for (int j = 0; j < grup.tamanyGrup();j++)
+                cont += grup.seleccionar(i).pes();
+
         }
         return  cont < numIncial;
     }
     public boolean esJugadaValida( GCartes grup ){ return esEscala( grup ) || esMateixNum( grup ); }
-    private boolean compararEscala(Carta carta1,Carta carta2){
-        int num1 = carta1.num();
-        int num2 = carta2.num();
+    protected boolean compararEscala(Carta carta1,Carta carta2){
+        int num1 = carta1.pes();
+        int num2 = carta2.pes();
         int palo1 = carta1.palo();
         int palo2 = carta2.palo();
-
-        if(palo1 != 0 && palo2 != 0 && palo1 != palo2) return false;
+        if(palo1 == 0 || palo2 == 0) return num1<num2;
+        if(palo1 != palo2 ) return false;
         if(num1 == 13 && num2 == 1) return true;
         if(num1 == 1 && num2 == 13) return true;
         return num1<num2;
     }
-    private void canviarPes( GCartes grup ){
+    protected void canviarPes( GCartes grup ){
         Carta carta1 = grup.seleccionar(0);
         Carta carta2 = grup.seleccionar(3);
-        if( carta1.num() != 1 && carta2.num() != 13 ) return;
+        if( carta1.num() != 1 || carta2.num() != 13 ) return;
         if( carta1.num()+1 == grup.seleccionar(1).num() ) carta2.canviarPes(0);
         else if( carta2.num()-1 == grup.seleccionar(2).num() ) carta1.canviarPes(14);
     }
-    private void desferPes(GCartes grup){
+    protected void desferPes(GCartes grup){
         Carta carta1 = grup.seleccionar(0);
         Carta carta2 = grup.seleccionar(3);
-        if( carta1.num() != 1 && carta2.num() != 13 ) return;
-        if( carta1.num()+1 == grup.seleccionar(1).num() ) carta2.canviarPes(carta2.num());
-        else if( carta2.num()-1 == grup.seleccionar(2).num() ) carta1.canviarPes(carta1.num());
+        if(carta1.num() !=carta1.pes()) carta1.canviarPes(carta1.num());
+        if(carta2.num() != carta2.pes())  carta2.canviarPes(carta2.num());
     }
-    private boolean esEscala( GCartes grup ){
+
+    protected boolean tamanyEscala(int tamany){ return tamany == 4 ; }
+    protected boolean esEscala( GCartes grup ){
         int tamany = grup.tamanyGrup();
-        if(tamany!=4) return false;
+        if(!tamanyEscala(tamany)) return false;
         canviarPes(grup);
         grup.sort();
         for(int c = 1 ; c < tamany ;c++){
-            if( compararEscala(grup.seleccionar(c-1) , grup.seleccionar(c) ) ) {
+            if( !compararEscala(grup.seleccionar(c-1) , grup.seleccionar(c) ) ) {
                 desferPes(grup);
                 return false;
             }
         }
         return true;
     }
-    private boolean compararGrup(Carta carta1,Carta carta2){
-        int num1 = carta1.num();
-        int num2 = carta2.num();
+    protected boolean compararGrup(Carta carta1,Carta carta2){
+        int num1 = carta1.pes();
+        int num2 = carta2.pes();
         int palo1 = carta1.palo();
         int palo2 = carta2.palo();
-        if(palo2 != 0 && palo1 == palo2) return false;
+        if( palo1 == 0 || palo2 == 0 ) return num1 == num2;
+        if( palo1 == palo2 ) return false;
         return num1 == num2;
     }
-    private boolean esMateixNum( GCartes grup ){
+    protected boolean esMateixNum( GCartes grup ){
         int tamany = grup.tamanyGrup();
         if(tamany<=2  ||  tamany >= 5) return false;
         for(int c = 1 ; c< tamany ;c++){
@@ -97,20 +97,23 @@ public class Rummy {
     public int selectNum (){
         Scanner num = new Scanner(System.in);
         int n;
+        imprimirSeleccionar();
+        do{ n = num.nextInt(); }while(n>=14 || n<=0);
+        return n;
+    }
+    protected  void imprimirSeleccionar(){
         System.out.println("""
                 Selecciona un numero entre el 1 i el 13\s
                 el 1 --> A\s
                 el 11 --> J\s
                 el 12 --> Q\s
                 el 13 --> K\s""");
-        do{ n = num.nextInt(); }while(n>=14 || n<=0);
-        return n;
     }
 
 
 
     // Puntuacio
-    private int puntCartes(Carta carta){
+    protected int puntCartes(Carta carta){
         /*
         Punts de cartes
         1-7  -> 5 punts
