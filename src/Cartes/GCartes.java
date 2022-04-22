@@ -38,4 +38,11 @@ public class GCartes {
         }
         System.out.println();
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        GCartes grupNou = new GCartes();
+        for (Carta carta: grup){ grupNou.robar( (Carta) carta.clone() ); }
+        return grupNou;
+    }
 }

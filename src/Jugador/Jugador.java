@@ -62,4 +62,11 @@ public class Jugador extends Ma {
     public void aJugat() { jugadaInicial = false; }
     public boolean esJugadaInicial() { return jugadaInicial; }
 
+    public Object clone() throws CloneNotSupportedException {
+        Ma maNova = new Jugador();
+        for (int i = 0 ; i < super.tamanyGrup() ; i++)
+            maNova.robar( (Carta) super.seleccionar(i).clone() );
+        return maNova;
+    }
+
 }

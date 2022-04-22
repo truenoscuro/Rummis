@@ -6,10 +6,10 @@ import Normes.* ;
 
 // Canviar els prints perque sigui mes lletguible
 public class Taula {
-    private final Ma[] jugadors;
+    private  Ma[] jugadors;
     private final Mazo mazo;
     private final Rummy normes;
-    private final ZonaJoc zonaJoc;
+    private  ZonaJoc zonaJoc;
     public Taula( int numJugadors ){
         jugadors = new Jugador[numJugadors];
         for (int i = 0; i<numJugadors;i++) jugadors[i] =  new Jugador();
@@ -27,7 +27,6 @@ public class Taula {
             carta = grup.seleccionar(0);
             grup.jugar(carta);
             carta.canviarPes( carta.num() );
-            carta.agregarGrup(new GCartes());
             mazo.agregar(carta);
         }
     }
@@ -48,47 +47,31 @@ public class Taula {
         for (Ma jugador : jugadors){
             for (int i = 0; i < numCartes; i++) {
                 carta = mazo.robar();
-                carta.agregarGrup(jugador);
                 jugador.robar(carta);
             }
         }
     }
 
-    private void restaurar(ZonaJoc zonaAux){
-        GCartes grup;
-        Carta carta;
-        while (!zonaAux.esBuida()) {
-            grup = zonaAux.selectGrup(0);
-            zonaAux.extreuGrup(grup);
-            for (int i = 0; i < grup.tamanyGrup(); i++) {
-                carta = grup.seleccionar(i);
-                carta.canviarPes(carta.num());
-                carta.retornar();
-            }
-        }
-    }
+
 
     private boolean arreglarGrups(Ma jugador, GCartes grupArreglar ){
         Carta carta;
-        boolean torn1 = true;
-        while (torn1 || !jugador.esBuida() && !normes.esJugadaValida( grupArreglar )) { // modific puc fer que sigui en general
+        do{
             carta = jugador.mostrar(); // si tria un grup  está clar que voldrá modificarlo
             jugador.jugar( carta );
             if( carta.palo() == 0) carta.canviarPes( normes.selectNum() );
             grupArreglar.robar( carta );
             grupArreglar.imprimir();
-            torn1 = false;
             if(grupArreglar.tamanyGrup()< 3) continue; // Primer selecciona fins un grup de tres cartes
             if( jugador.volJugar("T'HAS EQUIVOCAT" ) ) return false;
-
-        }
-        return !jugador.esBuida() || normes.esJugadaValida(grupArreglar);
+        } while (!jugador.esBuida() || !normes.esJugadaValida( grupArreglar ) );  // modific puc fer que sigui en general
+        return true;
     }
     private void jugarZona(Ma jugador,ZonaJoc zonaAux){
         GCartes grup;
         do {
-            zonaJoc.imprimir();
-            grup =  zonaJoc.mostrar();
+            zonaAux.imprimir();
+            grup =  zonaAux.mostrar();
             // vol agafar una carta mes del grup
             do {
                 Carta carta = ((Jugador) grup).mostrar();
@@ -100,18 +83,17 @@ public class Taula {
         } while ( jugador.volJugar(" SELECCIONAR UN ALTRE GRUP" ) );
 
     }
-    private void jugar( Ma jugador ){
-        //Inits
-        ZonaJoc zonaAux = new ZonaJoc();
+    private void jugar( int torn ) throws CloneNotSupportedException {
+        //Clones
+        Ma jugador = (Jugador) jugadors[ torn ].clone();
+        ZonaJoc zonaAux = (ZonaJoc) zonaJoc.clone();
+
         zonaAux.agregarGrup( new GCartes() );
         GCartes grup;
         if( !jugador.esJugadaInicial() && jugador.volJugar(" AGAFAR CARTES EN JOC ") ) jugarZona(jugador,zonaAux);
         for( int i = 0;  i < zonaAux.tamany(); i++ ) {
             grup = zonaAux.selectGrup( i );
-            if(!arreglarGrups( jugador , grup )){
-                restaurar(zonaAux);
-                break;
-            }
+            if(!arreglarGrups( jugador , grup )) return;
             if( !jugador.esJugadaInicial() || !normes.arribaAlMin( zonaAux ) ) zonaAux.agregarGrup(new GCartes());
             else jugador.aJugat();
         }
@@ -122,11 +104,13 @@ public class Taula {
             for( int i = 0 ; i < grup.tamanyGrup() ; i++ )
                 grup.seleccionar(i).agregarGrup(grup);
         }
+        zonaJoc = zonaAux;
+        jugadors[ torn ] = jugador;
 
     }
     private int pasarTorn(int torn){ return ++torn%jugadors.length; }
 
-    public void jugarJoc(){
+    public void jugarJoc() throws CloneNotSupportedException {
         // repartir cartes
         int torn;
         Ma jugador;
@@ -146,7 +130,7 @@ public class Taula {
                         jugador.robar( carta );
                         break;
                     }
-                   jugar( jugador );
+                   jugar( torn );
                 } while( !normes.esGuanyadorRonda( jugador ) && jugador.volJugar("ALTRE JUGADA" ) ); //<--- pasar a normes o deixarlo així.
                 torn = pasarTorn( torn );
             } while( !normes.esGuanyadorRonda( jugador ) );

@@ -6,13 +6,10 @@ public class Carta implements Comparable{
     private final int num ;
     private final int palo;
     private int pes;
-    private GCartes grupRetorna; // buumerang
-
     public Carta( int num , int palo ){
         this.num = num;
         this.pes = num;
         this.palo = palo;
-        grupRetorna = new GCartes(); // <--- eliminar
     }
     // Sets
     public void canviarPes(int n ){ pes = n; }
@@ -23,14 +20,7 @@ public class Carta implements Comparable{
 
     //Imprimir
     public void imprimir(){System.out.print(num+""+palo+"");}
-
-    //efecto bumerang de ses cartes;
-    public void agregarGrup(GCartes grup){ grupRetorna = grup; }
-    public void retornar(){
-        pes = num;
-        grupRetorna.robar(this)
-        ;}
-
+    
     // Compara dues cartes
     @Override
     public boolean equals(Object o) {
@@ -51,5 +41,14 @@ public class Carta implements Comparable{
         else if( pes < carta.pes() ) comp = -1;
         else if( pes > carta.pes() ) comp = 1;
         return comp;
+    }
+
+
+    @Override
+
+    public Object clone() throws CloneNotSupportedException {
+        Carta carta = new Carta( this.num , this.palo );
+        carta.canviarPes( this.pes );
+        return  carta;
     }
 }

@@ -48,4 +48,9 @@ public class Rummikub  extends Rummy{
         }
         jugadorGuanyador.agregarPuntuacio(totalPunts);
     }
+
+    @Override
+    public void imprimir() {
+
+    }
 }

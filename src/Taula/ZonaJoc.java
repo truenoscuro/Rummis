@@ -44,5 +44,11 @@ public class ZonaJoc {
         }
     }
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        ZonaJoc zona = new ZonaJoc();
+        for (GCartes grup : grupCarta)
+            zona.agregarGrup((GCartes) grup.clone());
+        return zona;
+    }
 }

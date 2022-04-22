@@ -42,6 +42,14 @@ public class CartaFrancesa extends Carta {
     }
     @Override
     public void imprimir() { System.out.print( numF() + paloF() ); }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Carta carta = new CartaFrancesa( super.num() , super.palo() );
+        carta.canviarPes( super.pes() );
+        return  carta;
+    }
+
 }
 
 
