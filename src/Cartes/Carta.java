@@ -20,7 +20,7 @@ public class Carta implements Comparable{
 
     //Imprimir
     public void imprimir(){System.out.print(num+""+palo+"");}
-    
+
     // Compara dues cartes
     @Override
     public boolean equals(Object o) {
@@ -45,7 +45,6 @@ public class Carta implements Comparable{
 
 
     @Override
-
     public Object clone() throws CloneNotSupportedException {
         Carta carta = new Carta( this.num , this.palo );
         carta.canviarPes( this.pes );

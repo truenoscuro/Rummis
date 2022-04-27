@@ -101,12 +101,9 @@ public class Taula {
         while(!zonaAux.esBuida()){
             grup = zonaAux.selectGrup(0);
             if(!zonaAux.extreuGrup(grup)) zonaJoc.agregarGrup(grup);
-            for( int i = 0 ; i < grup.tamanyGrup() ; i++ )
-                grup.seleccionar(i).agregarGrup(grup);
         }
         zonaJoc = zonaAux;
         jugadors[ torn ] = jugador;
-
     }
     private int pasarTorn(int torn){ return ++torn%jugadors.length; }
 
@@ -126,7 +123,6 @@ public class Taula {
                 do {
                     if( !jugador.volJugar("PASAR TORN" ) ){
                         carta = mazo.robar();
-                        carta.agregarGrup( jugador );
                         jugador.robar( carta );
                         break;
                     }
