@@ -129,7 +129,8 @@ public class Taula {
                    jugar( torn );
                 } while( !normes.esGuanyadorRonda( jugador ) && jugador.volJugar("ALTRE JUGADA" ) ); //<--- pasar a normes o deixarlo així.
                 torn = pasarTorn( torn );
-            } while( !normes.esGuanyadorRonda( jugador ) );
+            } while( !mazo.esBuid() && !normes.esGuanyadorRonda( jugador ) );
+            if(mazo.esBuid()) continue;
             normes.sumarPuntuacio( jugadors );
             imprimirPuntuacio();
             recollir();
