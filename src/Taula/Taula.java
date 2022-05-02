@@ -59,10 +59,10 @@ public class Taula {
         do{
             carta = jugador.mostrar(); // si tria un grup  está clar que voldrá modificarlo
             jugador.jugar( carta );
-            if( carta.palo() == 0) carta.canviarPes( normes.selectNum() );
+            if( carta.palo() == 0 ) carta.canviarPes( normes.selectNum() );
             grupArreglar.robar( carta );
             grupArreglar.imprimir();
-            if(grupArreglar.tamanyGrup()< 3) continue; // Primer selecciona fins un grup de tres cartes
+            if( grupArreglar.tamanyGrup()< 3 ) continue; // Primer selecciona fins un grup de tres cartes
             if( jugador.volJugar("T'HAS EQUIVOCAT" ) ) return false;
         } while (!jugador.esBuida() || !normes.esJugadaValida( grupArreglar ) );  // modific puc fer que sigui en general
         return true;
@@ -74,9 +74,11 @@ public class Taula {
             grup =  zonaAux.mostrar();
             // vol agafar una carta mes del grup
             do {
+
                 Carta carta = ((Jugador) grup).mostrar();
                 zonaAux.selectGrup(0).robar(carta); // afegeix al grup 0
                 grup.jugar(carta);  // elimin carta al grup aqui es on hi ha el problema
+
             }while(jugador.volJugar(" CONTINUAR AGAFANT CARTES DEL MATEIX GRUP"));
             zonaAux.agregarGrup( grup );
             zonaAux.imprimir();
@@ -135,7 +137,35 @@ public class Taula {
             recollir();
         }
     }
-
+    public void jugarGin() throws CloneNotSupportedException {
+        // repartir cartes
+        int torn;
+        Ma jugador; // -->
+        Carta carta;
+        normes.imprimir();
+        // cementeri extensio de Mazo
+        while( !normes.hihaGuanyador( jugadors ) ){
+            repartir();
+            torn = 0;
+            //ronda
+            do {
+                jugador = jugadors[ torn ];
+                System.out.println("Torn del jugador "+ torn);
+                if( !jugador.volJugar("ROBAR BIBLIOTECA" ) ){
+                    carta = mazo.robar();
+                    jugador.robar( carta );
+                }else{
+                    // carta = cementeri.robar();
+                    //jugador.robar(carta);
+                }
+                // descartar carta
+                torn = pasarTorn( torn );
+            } while( !normes.esGuanyadorRonda( jugador ) ); // mirar si pot fer gin o knock
+            normes.sumarPuntuacio( jugadors ); // Se necesita saber qui ha tancat! // He de cambiarho!
+            imprimirPuntuacio();
+            recollir();
+        }
+    }
     //imprimibles
     private void imprimirTaula(Ma jugador){
         System.out.print("Ma: ");

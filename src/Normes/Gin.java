@@ -23,6 +23,7 @@ public class Gin extends Rummikub{
 
     @Override
     public boolean esGuanyadorRonda(Ma jugador) {
+        // tots els grups ell i despres mirar si es kong o gin
         return  false;
     }
 
