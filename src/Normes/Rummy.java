@@ -23,7 +23,7 @@ public class Rummy {
         }
         return false;
     }
-    public boolean esGuanyadorRonda(Ma jugador){ return jugador.esBuida() ; }
+    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException { return jugador.esBuida() ; }
     //Normes de jugar
     public boolean arribaAlMin(ZonaJoc grups){
         int cont = 0;
@@ -126,7 +126,7 @@ public class Rummy {
         if(num>=1 && num<= 7) valor = 5;
         return valor;
     }
-    public void sumarPuntuacio( Ma...jugadors ) {
+    public void sumarPuntuacio( Ma...jugadors ) throws CloneNotSupportedException {
         Ma jugadorGuanyador = jugadors[0];
         int totalPunts=0;
         for(Ma jugador : jugadors) {

@@ -23,6 +23,11 @@ public class Mazo {
 
     public void barallar(){ Collections.shuffle(mazo); }
 
+    public void imprimirSuperior(){
+        mazo.get(0).imprimir();
+        System.out.println();
+    }
+
 
 
 }
