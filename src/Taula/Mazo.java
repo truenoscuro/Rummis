@@ -16,15 +16,17 @@ public class Mazo {
     //Accions
     public void agregar( Carta carta ){ mazo.add(carta); }
     public Carta robar(){
-        Carta carta = mazo.get(0);
-        mazo.remove(0);
+        int ultima = mazo.size() -1;
+        Carta carta = mazo.get( ultima);
+        mazo.remove( carta );
         return carta;
     }
 
     public void barallar(){ Collections.shuffle(mazo); }
 
     public void imprimirSuperior(){
-        mazo.get(0).imprimir();
+        int ultima = mazo.size() -1;
+        mazo.get(ultima).imprimir();
         System.out.println();
     }
 
