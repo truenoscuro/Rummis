@@ -126,7 +126,7 @@ public class Rummy {
         if(num>=1 && num<= 7) valor = 5;
         return valor;
     }
-    public void sumarPuntuacio( Ma...jugadors ) {
+    public void sumarPuntuacio( Ma...jugadors ) throws CloneNotSupportedException {
         Ma jugadorGuanyador = jugadors[0];
         int totalPunts=0;
         for(Ma jugador : jugadors) {

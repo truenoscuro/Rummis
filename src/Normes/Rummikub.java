@@ -34,7 +34,7 @@ public class Rummikub  extends Rummy{
     @Override
     protected int puntCartes(Carta carta) { return carta.palo() == 0? 30: carta.num(); }
 
-    public void sumarPuntuacio( Ma...jugadors ) {
+    public void sumarPuntuacio( Ma...jugadors ) throws CloneNotSupportedException {
         Ma jugadorGuanyador = jugadors[0];
         int totalPunts=0;
         int cont  ;

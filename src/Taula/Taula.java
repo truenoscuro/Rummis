@@ -66,9 +66,10 @@ public class Taula {
             if( carta.palo() == 0 ) carta.canviarPes( normes.selectNum() );
             grupArreglar.robar( carta );
             grupArreglar.imprimir();
-            if( grupArreglar.tamanyGrup()< 3 ) continue; // Primer selecciona fins un grup de tres cartes
             if( jugador.volJugar("T'HAS EQUIVOCAT" ) ) return false;
-        } while (!jugador.esBuida() || !normes.esJugadaValida( grupArreglar ) );  // modific puc fer que sigui en general
+        } while (grupArreglar.tamanyGrup()>= 3 &&
+                (!jugador.esBuida() ||
+                 !normes.esJugadaValida( grupArreglar )) );
         return true;
     }
     private void jugarZona(Ma jugador,ZonaJoc zonaAux){
