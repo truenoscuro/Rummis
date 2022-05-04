@@ -22,8 +22,12 @@ public class Gin extends Rummikub{
     }
 
     @Override
-    public boolean esGuanyadorRonda(Ma jugador) {
-        // tots els grups ell i despres mirar si es kong o gin
+    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException {
+        // tots els grups ell i despres mirar si es kong o gin si es guanyador li lleves totes les cartes seleccionades
+        Ma jugadorAux = (Ma) jugador.clone();
+
+
+
         return  false;
     }
 
@@ -39,7 +43,7 @@ public class Gin extends Rummikub{
     }
 
     @Override
-    public void sumarPuntuacio(Ma... jugadors) {
+    public void sumarPuntuacio(Ma... jugadors) { // será el jugador que tengui menos cartes en Ma.
 
     }
 

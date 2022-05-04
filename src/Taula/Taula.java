@@ -7,39 +7,43 @@ import Normes.* ;
 // Canviar els prints perque sigui mes lletguible
 public class Taula {
     private  Ma[] jugadors;
-    private final Mazo mazo;
-    private final Rummy normes;
+    private  Mazo mazo;
+    private  Rummy normes;
     private  ZonaJoc zonaJoc;
-    public Taula( int numJugadors ){
+    private final int JOC ;
+    public Taula( int numJugadors , int joc){
         jugadors = new Jugador[numJugadors];
         for (int i = 0; i<numJugadors;i++) jugadors[i] =  new Jugador();
-        zonaJoc = new ZonaJoc();
-        //Mazo i ses normes; s'ha de posar un selector
-        normes = new Rummy();
+        JOC =joc;
+        construcJoc();
+    }
+    private void construcJoc(){
         mazo = new Mazo();
-        mazo.barallar();
-
-        GMazos.cFaJ(mazo);
-    }
-    private void recollirGrup(GCartes grup){
-        Carta carta;
-        while(!grup.esBuida()){
-            carta = grup.seleccionar(0);
-            grup.jugar(carta);
-            carta.canviarPes( carta.num() );
-            mazo.agregar(carta);
+        zonaJoc = new ZonaJoc();
+        switch (JOC){
+            case 0 -> {
+                normes = new Rummy();
+                GMazos.cFaJ(mazo);
+                GMazos.cFaJ(mazo);
+            }
+            case 1 -> {
+                normes = new Rummikub();
+                GMazos.RummiKub(mazo);
+            }
+            default -> {
+                normes = new Gin();
+                GMazos.cFa(mazo);
+            }
         }
+        mazo.barallar();
     }
+
     //s'ha de programar
     private void recollir(){
-        GCartes grup;
-        while(!zonaJoc.esBuida()) {
-            grup = zonaJoc.selectGrup(0);
-            recollirGrup(grup);
-            zonaJoc.extreuGrup(grup);
-        }
-        for(GCartes jugador: jugadors) recollirGrup(jugador);
-        mazo.barallar();
+        for(Ma jugador:jugadors)
+            while(!jugador.esBuida())
+                jugador.jugar(jugador.seleccionar(0));
+        construcJoc();
     }
     private void repartir() {
         int numCartes = normes.cartesInit();
@@ -110,10 +114,8 @@ public class Taula {
     private int pasarTorn(int torn){ return ++torn%jugadors.length; }
 
     public void jugarJoc() throws CloneNotSupportedException {
-        // repartir cartes
         int torn;
         Ma jugador;
-        Carta carta;
         normes.imprimir();
         while( !normes.hihaGuanyador( jugadors ) ){
             repartir();
@@ -124,8 +126,7 @@ public class Taula {
                 System.out.println("Torn del jugador "+ torn);
                 do {
                     if( !jugador.volJugar("PASAR TORN" ) ){
-                        carta = mazo.robar();
-                        jugador.robar( carta );
+                        jugador.robar(  mazo.robar() );
                         break;
                     }
                    jugar( torn );
@@ -138,40 +139,36 @@ public class Taula {
         }
     }
     public void jugarGin() throws CloneNotSupportedException {
-        // repartir cartes
         int torn;
-        Ma jugador; // -->
-        Carta carta;
+        Ma jugador;
+        Mazo cementeri = new Mazo();
+        cementeri.agregar( mazo.robar() );
         normes.imprimir();
-        // cementeri extensio de Mazo
+
         while( !normes.hihaGuanyador( jugadors ) ){
             repartir();
             torn = 0;
-            //ronda
             do {
                 jugador = jugadors[ torn ];
                 System.out.println("Torn del jugador "+ torn);
-                if( !jugador.volJugar("ROBAR BIBLIOTECA" ) ){
-                    carta = mazo.robar();
-                    jugador.robar( carta );
-                }else{
-                    // carta = cementeri.robar();
-                    //jugador.robar(carta);
-                }
-                // descartar carta
+                imprimirTaula(jugador,cementeri);
+                if( !jugador.volJugar("ROBAR BIBLIOTECA" ) ) jugador.robar(  mazo.robar() );
+                else jugador.robar( cementeri.robar() );
+                jugador.jugar( jugador.mostrar() );
                 torn = pasarTorn( torn );
-            } while( !normes.esGuanyadorRonda( jugador ) ); // mirar si pot fer gin o knock
-            normes.sumarPuntuacio( jugadors ); // Se necesita saber qui ha tancat! // He de cambiarho!
+            } while( !normes.esGuanyadorRonda( jugador ) );
+            normes.sumarPuntuacio( jugadors );
             imprimirPuntuacio();
             recollir();
         }
     }
     //imprimibles
-    private void imprimirTaula(Ma jugador){
+    private void imprimirTaula(Ma jugador, Mazo cementeri){
         System.out.print("Ma: ");
         jugador.imprimir();
-        System.out.println("Taula");
-        zonaJoc.imprimir();
+        System.out.print("Cementeri: ");
+        cementeri.imprimirSuperior();
+
     }
     private void imprimirPuntuacio(){
         System.out.print("Puntuacio jugadors: ");

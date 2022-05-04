@@ -23,7 +23,7 @@ public class Rummy {
         }
         return false;
     }
-    public boolean esGuanyadorRonda(Ma jugador){ return jugador.esBuida() ; }
+    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException { return jugador.esBuida() ; }
     //Normes de jugar
     public boolean arribaAlMin(ZonaJoc grups){
         int cont = 0;
