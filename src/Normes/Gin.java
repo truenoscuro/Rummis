@@ -18,29 +18,9 @@ public class Gin extends Argentino{
     protected int puntuacio() { return punts; }
 
     @Override
-    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException { //jugadors tendran una zonaJoc
-        if( !jugador.volJugar(" TENS PER TANCAR?")) return false;
-        Ma jugadorAux = (Ma) jugador.clone();
-        final int MINCARTES = 3;
-        GCartes grup ;
-        Carta carta ;
-        do {
-            grup = new GCartes();
-            do{
-                carta = jugadorAux.mostrar();
-                jugadorAux.jugar(carta);
-                grup.robar(carta);
-            } while( grup.tamanyGrup() >= MINCARTES && jugadorAux.volJugar(" VOL CONTINUAR AMB EL MATEIX GRUP"));
-            if(!esJugadaValida(grup)) break; // UN ERROR I A lA CALLE
-        } while( jugadorAux.volJugar(" VOL FER UN GRUP "));
-        if(!esJugadaValida(grup) ) return esGuanyadorRonda( jugador );
-        int punt = 0 ;
-        for( int i = 0; i < jugadorAux.tamanyGrup() ; i++ ) punt += puntCartes( jugadorAux.seleccionar( i ) );
-        if( punt >= 10 ){
-            return false;
-        }
-        jugador = jugadorAux;
-        return true;
+    public boolean esGuanyadorRonda(Ma jugador) { //jugadors tendran una zonaJoc
+
+        return false;
     }
 
     protected int puntCartes(Carta carta){

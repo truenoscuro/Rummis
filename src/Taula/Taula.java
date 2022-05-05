@@ -30,9 +30,14 @@ public class Taula {
                 normes = new Rummikub();
                 GMazos.RummiKub(mazo);
             }
-            default -> {
+            case 2 -> {
                 normes = new Gin();
                 GMazos.cFa(mazo);
+            }
+            default ->{
+                normes = new Argentino();
+                GMazos.cFaJ(mazo);
+                GMazos.cFaJ(mazo);
             }
         }
         mazo.barallar();
@@ -57,7 +62,7 @@ public class Taula {
     }
 
 
-
+    // PEr RUMMY I RUMMIKUB
     private boolean arreglarGrups(Ma jugador, GCartes grupArreglar ){
         Carta carta;
         do{
@@ -93,8 +98,7 @@ public class Taula {
     private void jugar( int torn ) throws CloneNotSupportedException {
         //Clones
         Ma jugador = (Jugador) jugadors[ torn ].clone();
-        ZonaJoc zonaAux = (ZonaJoc) zonaJoc.clone();
-
+        ZonaJoc zonaAux = (JOC>2)?(ZonaJoc) zonaJoc.clone() : jugador.extreure(); //Argentino es igual pero amb la zona de JOc del jugador
         zonaAux.agregarGrup( new GCartes() );
         GCartes grup;
         if( !jugador.esJugadaInicial() && jugador.volJugar(" AGAFAR CARTES EN JOC ") ) jugarZona(jugador,zonaAux);
@@ -109,7 +113,8 @@ public class Taula {
             grup = zonaAux.selectGrup(0);
             if(!zonaAux.extreuGrup(grup)) zonaJoc.agregarGrup(grup);
         }
-        zonaJoc = zonaAux;
+        if(JOC>2) zonaJoc = zonaAux;
+        else jugador.afegir( zonaAux );
         jugadors[ torn ] = jugador;
     }
     private int pasarTorn(int torn){ return ++torn%jugadors.length; }
@@ -140,9 +145,35 @@ public class Taula {
             recollir();
         }
     }
-    public void jugarGin() throws CloneNotSupportedException {
+
+
+    // PER JUGAR A GIN I ARGENTINO
+    private void jugarGin(int torn) throws CloneNotSupportedException {
+        Ma jugadorAux = (Ma) jugadors[ torn ].clone();
+        if( !jugadorAux.volJugar(" TENS PER TANCAR?")) return;
+        ZonaJoc zonaAux = jugadorAux.extreure();
+        final int MINCARTES = 3;
+        GCartes grup ;
+        Carta carta ;
+        do {
+            grup = new GCartes();
+            do{
+                carta = jugadorAux.mostrar();
+                jugadorAux.jugar(carta);
+                grup.robar(carta);
+            } while( grup.tamanyGrup() >= MINCARTES && jugadorAux.volJugar(" VOL CONTINUAR AMB EL MATEIX GRUP"));
+            if(!normes.esJugadaValida(grup)) break; // UN ERROR I A lA CALLE
+            zonaAux.agregarGrup(grup);
+        } while( jugadorAux.volJugar(" VOL FER UN GRUP "));
+        if( !normes.esJugadaValida(grup) ) jugarGin( torn );
+        else jugadors[ torn ] = jugadorAux;
+    }
+
+
+    public void jugarJocGin() throws CloneNotSupportedException {
         int torn;
         Ma jugador;
+        Carta carta;
         Mazo cementeri = new Mazo();
         cementeri.agregar( mazo.robar() );
         normes.imprimir();
@@ -156,8 +187,14 @@ public class Taula {
                 imprimirTaula(jugador,cementeri);
                 if( !jugador.volJugar("ROBAR BIBLIOTECA" ) ) jugador.robar(  mazo.robar() );
                 else jugador.robar( cementeri.robar() );
-                jugador.jugar( jugador.mostrar() );
+
+                if ( JOC > 2 ) jugar( torn ); // Argentino
+                // posar carta cementeri
+                carta =jugador.mostrar();
+                jugador.jugar(carta);
+                cementeri.agregar( carta );
                 torn = pasarTorn( torn );
+                if( JOC == 2 ) jugarGin(torn);
             } while( !normes.esGuanyadorRonda( jugador ) );
             normes.sumarPuntuacio( jugadors );
             imprimirPuntuacio();
