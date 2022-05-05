@@ -1,7 +1,5 @@
 package Cartes;
 
-import Cartes.Carta;
-
 public class CartaFrancesa extends Carta {
     /*
     Hi ha 4 cartes de cada

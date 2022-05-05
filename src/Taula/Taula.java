@@ -68,7 +68,7 @@ public class Taula {
         do{
             carta = jugador.mostrar(); // si tria un grup  está clar que voldrá modificarlo
             jugador.jugar( carta );
-            if( carta.palo() == 0 ) carta.canviarPes( normes.selectNum() );
+            normes.esComodin( carta );
             grupArreglar.robar( carta );
             grupArreglar.imprimir();
             if( jugador.volJugar("T'HAS EQUIVOCAT" ) ) return false;
@@ -203,6 +203,7 @@ public class Taula {
             } while( !normes.esGuanyadorRonda( jugador ) );
             moureJugador( torn );
             normes.sumarPuntuacio( jugadors );
+            moureJugador( torn );
             imprimirPuntuacio();
             recollir();
         }

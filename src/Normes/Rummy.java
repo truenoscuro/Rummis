@@ -5,7 +5,6 @@ import Jugador.*;
 import Taula.ZonaJoc;
 
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Rummy {
@@ -47,6 +46,8 @@ public class Rummy {
         if(num1 == 1 && num2 == 13) return true;
         return num1<num2;
     }
+
+
     protected void canviarPes( GCartes grup ){
         Carta carta1 = grup.seleccionar(0);
         Carta carta2 = grup.seleccionar(3);
@@ -57,7 +58,7 @@ public class Rummy {
     protected void desferPes(GCartes grup){
         Carta carta1 = grup.seleccionar(0);
         Carta carta2 = grup.seleccionar(3);
-        if(carta1.num() !=carta1.pes()) carta1.canviarPes(carta1.num());
+        if(carta1.num() !=carta1.pes() )carta1.canviarPes(carta1.num());
         if(carta2.num() != carta2.pes())  carta2.canviarPes(carta2.num());
     }
 
@@ -94,12 +95,16 @@ public class Rummy {
         return true;
     }
     // Comodin
-    public int selectNum (){
+    protected int selectNum (){
         Scanner num = new Scanner(System.in);
         int n;
         imprimirSeleccionar();
         do{ n = num.nextInt(); }while(n>=14 || n<=0);
         return n;
+    }
+    public void esComodin(Carta carta){
+        if (carta.num() != 0) return ;
+        carta.canviarPes(selectNum());
     }
     protected  void imprimirSeleccionar(){
         System.out.println("""
