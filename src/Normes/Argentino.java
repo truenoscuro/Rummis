@@ -10,10 +10,9 @@ public class Argentino extends Rummikub{
 
     protected int puntuacio(){ return punts ;}
 
-    @Override
-    public void imprimir() {
 
-    }
+
+    
     @Override
     public boolean hihaGuanyador( Ma...jugadors ) {
         for(int i = 0; i <jugadors.length ;i++) {
@@ -23,5 +22,12 @@ public class Argentino extends Rummikub{
             }
         }
         return false;
+    }
+
+
+
+
+    @Override
+    public void imprimir() {
     }
 }

@@ -1,6 +1,7 @@
 package Jugador;
 import Cartes.Carta;
 import Cartes.GCartes;
+import Taula.ZonaJoc;
 
 public abstract class Ma extends GCartes {
     public Ma(){ super(); }
@@ -17,4 +18,7 @@ public abstract class Ma extends GCartes {
     public abstract void agregarPuntuacio(int punts);
     public abstract int puntuacio();
 
+    // Zona de Joc
+    public abstract ZonaJoc extreure();
+    public abstract void afegir(ZonaJoc zona);
 }

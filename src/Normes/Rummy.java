@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Rummy {
-    protected int numCartes = 14;
-    protected  int puntuacio = 101;
-    protected int numIncial = 30;
-
+    private  int numCartes = 14;
+    private  int punts = 101;
+    private int numIncial = 30;
+    protected int puntuacio(){ return punts ;}
     public int cartesInit(){ return  numCartes; } // es el repartir de cartes en quantes començes
     public boolean hihaGuanyador( Ma...jugadors ) {
-        for(int i = 0; i <jugadors.length ;i++) {
-            if (jugadors[i].puntuacio() >= puntuacio) {
+        for( int i = 0; i <jugadors.length ;i++ ) {
+            if (jugadors[i].puntuacio() >= puntuacio()) {
                 System.out.println("El guanyador es el jugador " + i);
                 return true;
             }

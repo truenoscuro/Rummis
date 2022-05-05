@@ -1,6 +1,7 @@
 package Jugador;
 
 import Cartes.*;
+import Taula.ZonaJoc;
 
 
 import java.util.Scanner;
@@ -10,6 +11,7 @@ public class Jugador extends Ma {
     private int puntuacio;
     private boolean jugadaInicial;
 
+    private ZonaJoc zona;
 
     public Jugador(GCartes grup){
         this();
@@ -21,6 +23,7 @@ public class Jugador extends Ma {
        puntuacio = 0;
        jugadaInicial = true;
        jugar = new Scanner(System.in);
+       zona = new ZonaJoc();
 
     }
 
@@ -41,15 +44,13 @@ public class Jugador extends Ma {
     public void agregarPuntuacio( int punts ){ puntuacio += punts; }
     public int puntuacio() { return puntuacio; }
 
+
     //ACCiONS
-
-
     public Carta mostrar(){
         int i ;
         System.out.println("Selecciona una carta ");
         super.imprimir();
-        do{ i = jugar.nextInt();
-        }while( !super.estaEnRang( i ) );
+        do{ i = jugar.nextInt(); } while ( !super.estaEnRang( i ) ) ;
         return super.seleccionar( i );
     }
     public boolean volJugar(String text) {
@@ -64,9 +65,17 @@ public class Jugador extends Ma {
 
     public Object clone() throws CloneNotSupportedException {
         Ma maNova = new Jugador();
-        for (int i = 0 ; i < super.tamanyGrup() ; i++)
-            maNova.robar( (Carta) super.seleccionar(i).clone() );
+        for ( int i = 0 ; i < super.tamanyGrup() ; i++ )
+            maNova.robar( ( Carta ) super.seleccionar(i).clone() );
+        maNova.afegir( ( ZonaJoc ) this.zona.clone( ) );
         return maNova;
     }
+
+    @Override
+    public ZonaJoc extreure() { return zona; }
+
+    @Override
+    public void afegir(ZonaJoc zona) { this.zona = zona; }
+
 
 }
