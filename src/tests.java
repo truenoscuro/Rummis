@@ -4,17 +4,10 @@ import Normes.*;
 
 public class tests {
     public static void main(String[] args) throws CloneNotSupportedException {
-        Ma grup = new Jugador();
+        int num = 1;
+        int modul = 3;
 
-        grup.robar(new CartaFrancesa(1, 1));
-        grup.robar(new CartaFrancesa(2,3));
-        grup.robar(new CartaFrancesa( 13,2));
-        grup.robar(new CartaFrancesa(10,4));
-
-        GCartes grup2 = (GCartes) grup.clone();
-        grup2.imprimir();
-        grup2.robar(new CartaFrancesa(2,2));
-        grup2.imprimir();
-        grup.imprimir();
+        int num2 = 2;
+        System.out.println((1+(num2+modul-2))%modul);
     }
 }

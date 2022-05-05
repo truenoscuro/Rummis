@@ -169,7 +169,12 @@ public class Taula {
         else jugadors[ torn ].afegir( zonaAux );
     }
 
-
+    public void moureJugador( int torn ){
+        torn = pasarTorn(torn + jugadors.length-2);
+        Ma jugador1 = jugadors[ torn ];
+        jugadors[ torn ] = jugadors [ 0 ];
+        jugadors[ 0 ] = jugador1;
+    }
     public void jugarJocGin() throws CloneNotSupportedException {
         int torn;
         Ma jugador;
@@ -196,7 +201,7 @@ public class Taula {
                 torn = pasarTorn( torn );
                 if( JOC == 2 ) jugarGin(torn);
             } while( !normes.esGuanyadorRonda( jugador ) );
-
+            moureJugador( torn );
             normes.sumarPuntuacio( jugadors );
             imprimirPuntuacio();
             recollir();
