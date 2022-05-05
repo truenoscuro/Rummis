@@ -166,7 +166,7 @@ public class Taula {
             zonaAux.agregarGrup(grup);
         } while( jugadorAux.volJugar(" VOL FER UN GRUP "));
         if( !normes.esJugadaValida(grup) ) jugarGin( torn );
-        else jugadors[ torn ] = jugadorAux;
+        else jugadors[ torn ].afegir( zonaAux );
     }
 
 
@@ -196,6 +196,7 @@ public class Taula {
                 torn = pasarTorn( torn );
                 if( JOC == 2 ) jugarGin(torn);
             } while( !normes.esGuanyadorRonda( jugador ) );
+
             normes.sumarPuntuacio( jugadors );
             imprimirPuntuacio();
             recollir();

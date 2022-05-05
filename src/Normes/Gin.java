@@ -19,6 +19,14 @@ public class Gin extends Argentino{
 
     @Override
     public boolean esGuanyadorRonda(Ma jugador) { //jugadors tendran una zonaJoc
+        Ma jugadorAux = jugador;
+        ZonaJoc zona = jugadorAux.extreure();
+        GCartes grup;
+        for (int g = 0; g < zona.tamany(); g++){
+            grup = zona.selectGrup( g );
+            for (int c = 0; c < grup.tamanyGrup(); c++ )
+                jugador.jugar( grup.seleccionar( c ) );
+        }
 
         return false;
     }
