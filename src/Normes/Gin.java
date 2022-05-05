@@ -7,26 +7,18 @@ import Taula.ZonaJoc;
 
 import java.util.Arrays;
 
-public class Gin extends Rummikub{
+public class Gin extends Argentino{
     private int numCartes = 10;
-    private int puntuacio = 101;
+    private int punts = 101;
 
     @Override
     public int cartesInit() { return numCartes; }
 
     @Override
-    public boolean hihaGuanyador( Ma...jugadors ) {
-        for(int i = 0; i <jugadors.length ;i++) {
-            if (jugadors[i].puntuacio() >= puntuacio) {
-                System.out.println("El guanyador es el jugador " + i);
-                return true;
-            }
-        }
-        return false;
-    }
+    protected int puntuacio() { return punts; }
 
     @Override
-    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException {
+    public boolean esGuanyadorRonda(Ma jugador) throws CloneNotSupportedException { //jugadors tendran una zonaJoc
         if( !jugador.volJugar(" TENS PER TANCAR?")) return false;
         Ma jugadorAux = (Ma) jugador.clone();
         final int MINCARTES = 3;

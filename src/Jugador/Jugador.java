@@ -9,7 +9,7 @@ public class Jugador extends Ma {
     private final Scanner jugar;
     private int puntuacio;
     private boolean jugadaInicial;
-    private boolean potJugar ;
+
 
     public Jugador(GCartes grup){
         this();
